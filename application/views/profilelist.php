@@ -66,29 +66,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <a href="<?php echo base_url(); ?>assets/admin/javascript:void(0);" class="bars"></a>
                 <a class="navbar-brand" href="<?php echo base_url(); ?>assets/admin/index.html">RESEARCH INTELLIGENT APPLICATION</a>
             </div>
-            <div class="collapse navbar-collapse" id="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a></li>
-                </ul>
-            </div>
         </div>
     </nav>
     <!-- #Top Bar -->
     <section>
         <!-- Left Sidebar -->
         <aside id="leftsidebar" class="sidebar">
-            
             <!-- Menu -->
             <div class="menu">
                 <ul class="list">
                     
-                    <li class="active">
-                        <a href="http://localhost/ria/resmain/">
+                    <li>
+                        <a href="http://localhost/ria/resmain/homepage">
                             <i class="material-icons">home</i>
                             <span>Home</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="http://localhost/ria/resmain/profile">
                             <i class="material-icons">account_circle</i>
                             <span>Profile</span>
@@ -98,12 +92,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <a href="http://localhost/ria/resmain/restab">
                             <i class="material-icons">assignment</i>
                             <span>Research</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://localhost/ria/resmain/resfind">
-                            <i class="material-icons">search</i>
-                            <span>Find</span>
                         </a>
                     </li>
                 </ul>
@@ -124,48 +112,65 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </section>
 
     <section class="content">
-
         <div class="container-fluid">
-            <div class="row clearfix">
+            <div class="row clearfix" id="restable">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <?php if(isset($resclickdata)){
-                                    foreach ($resclickdata as $rc) {
-                                        echo'<h2>'."PROPOSAL ".''.$rc['proposal_id'].''.": ".''.$rc['p_title'].'</h2>';
-                                    }
-                                }
-                                        ?>
-                        </div>
-                        <div class="body">
-                            <?php
-                                if(isset($resclickdata)){
-                                    foreach ($resclickdata as $rc) {
-                                        echo'
-                                        <h2 class="card-inside-title">'."Proposal ID: ".''.$rc['proposal_id'].'</h2>
-                                        
-                                        <h2 class="card-inside-title">'."Subtitle: ".''.$rc['p_subtitle'].'</h2>
+                            <h2>RESEARCHERS</h2>
+                                <ul class="header-dropdown m-r--5">
+                                    <li class="dropdown">
+                                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                            <i class="material-icons">more_vert</i>
+                                        </a>
+                                        <ul class="dropdown-menu pull-right">
+                                            <li><a href="javascript:void(0);">Action</a></li>
+                                            <li><a href="javascript:void(0);">Another action</a></li>
+                                            <li><a href="javascript:void(0);">Something else here</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        <div class="body" id="tablebody">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                    <thead>
+                                        <tr>
+                                            <th id="tupid">TUP ID</th>
+                                            <th id="fullname">Name</th>
+                                            <th id="bday">Birthday</th>
+                                            <th id="">Sex</th>
+                                            <th id="office">Office</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php 
+                                    if(isset($resdata)){
+                                        foreach($resdata as $rd){
+                                            if($rd['bdate'] == ""){
+                                                $new_date = "--";
+                                            }
+                                            else{
+                                                $bdate = $rd['bdate'];
+                                                $new_date = date('M d, Y', strtotime($bdate));
+                                            }
+                                            
+                                            echo '
+                                                <tr>
+                                                    <td id="tupid">'.$rd['tup_id'].'</td>
+                                                    <td id="fullname"><a href="http://localhost/ria/resmain/profileview/'.$rd['researcher_id'].'" class="aname">'.$rd['fname'].''." ".''.$rd['mi'].''." ".''.$rd['lname'].'</a></td>
+                                                    <td id="bday">'.$new_date.'</td>
+                                                    <td id="sex">'.$rd['sex'].'</td>
+                                                    <td id="office">'.$rd['college_campus'].'</td>
+                                                                    
+                                                </tr>
+                                                ';
 
-                                        <h2 class="card-inside-title">'."Type: ".''.$rc['p_type'].'</h2>
-                                        
-                                        <h2 class="card-inside-title">Description:</h2>
-                                        <div class="row clearfix">
-                                            <div class="col-sm-12">
-                                                <h5>'.$rc['p_description'].'</h5>
-                                            </div>
-                                        </div>
-                                        <h2 class="card-inside-title">'."Duration: ".''.$rc['p_duration'].''." ".''."months".'</h2>
-                                        
-                                        <h2 class="card-inside-title">'."Total Budget: ".''.$rc['p_budget_total'].'</h2>
-                                        
-                                        ';
-                                    }
-                                }
-                                else{
-
-                                }
-                            ?>
-                            
+                                        }
+                                    }?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -4,8 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Resmain extends CI_Controller {
 
 	public function index()
-	{
-		$this->load->view('signin');
+	{	
+		
 	}
 
 	public function homepage()
@@ -14,13 +14,16 @@ class Resmain extends CI_Controller {
 
 		}
 		else{
-			$tag = "new";
+
+			// $residurl = $this->uri->segment('3');
+			$residurl = 1;
 			//load the model
 			$this->load->model('submit_model');
-
 			//get the data
-			// $data['tagstatus'] = $this->submit_model->latest_submit($tag);
-			$data['joindata'] = $this->submit_model->submit_join($tag);
+			$data['researcherdata'] = $this->submit_model->submit_join_research($residurl);
+			// exit;
+			$data['joindata'] = $this->submit_model->submit_join();
+			// $data['researcherid'] = $residurl;
 			// print_r($data);
 			// exit;
 			//load the view
@@ -41,6 +44,7 @@ class Resmain extends CI_Controller {
 			exit;
 		}
 		else{
+
 			//load the models
 			$this->load->model('researcher_model');
 			// $this->load->model('office_model');
@@ -49,7 +53,27 @@ class Resmain extends CI_Controller {
 			// $data['offdata'] = $this->office_model->find_office();
 			// print_r($data);
 			// exit;
-			$this->load->view('profile',$data);
+			$this->load->view('profilelist',$data);
+		}
+		
+	}
+
+	public function signup()
+	{	
+		if($_SERVER['REQUEST_METHOD'] == 'POST'){
+			$first = $_POST['fname'];
+			$middle = $_POST['mname'];
+			$last = $_POST['lname'];
+			$tupidno = $_POST['tupid'];
+			$bdate = $_POST['bdate'];
+			// print_r($first);
+			// print_r($middle);
+			// print_r($last);
+			print_r($bdate);
+			exit;
+		}
+		else{
+			$this->load->view('sign-up');
 		}
 		
 	}
@@ -86,7 +110,7 @@ class Resmain extends CI_Controller {
 
 				if (strlen($title)>0 && strlen($description)>0 && strlen($duration)>0 && strlen($type)>0 && strlen($budget)>0) {
 					
-					$status_tag = "NEW";
+					
 					// $new_prop_id = $propyear + "&#8208;" + $propyearcount;
 					$this->load->model('settings_model');
 					$insertdate = array(
@@ -188,8 +212,7 @@ class Resmain extends CI_Controller {
 			$budget =$_POST['p_budget_total'];
 			$file = $_POST['p_file_fullpaper'];
 			$proposal_id = $propyear.''."-".''.$propyearcount;
-			print_r("$propyearcount");
-			exit;
+			
 
 				if (strlen($subtitle) == 0 && strlen($file) == 0) {
 					$subtitle = "--";
@@ -243,6 +266,12 @@ class Resmain extends CI_Controller {
 				}
 		}
 		else{
+			
+			// $date = date('Y-m-d');
+			// $bdate1 = DateTime::createFromFormat('Y-m-d', $date);
+   //          $newbdate = $bdate1->format('M d, Y');
+			// print_r($newbdate);
+			// exit;
 			$this->load->view('addprop');
 		}
 		
@@ -304,18 +333,18 @@ class Resmain extends CI_Controller {
 	public function search_p(){
 		
 		$searchkey  = $_GET['searchval'];
-		// $searchkey = "Clever";
-		
-		$this->load->model('proposal_model');
-		$data_prop['datap'] = $this->proposal_model->search_proposal($searchkey);
-		// print_r(json_encode($data_prop['prop']));
-		$this->load->model('office_model');
-		$data_off = $this->office_model->search_office($searchkey);
-		echo json_encode($data_prop);
-		// echo json_encode($data_res);
-				// 'p_title'=>$data,
-				// 'p_subtitle'=>$p_subtitle,
-				// ));
+		// $searchkey = "trace";
+		// $searchkey = "";
+		if($searchkey == ""){
+			$data_prop['datap'] = array();
+			echo json_encode($data_prop);
+		}
+		else{
+			$this->load->model('proposal_model');
+			$data_prop['datap'] = $this->proposal_model->search_proposal($searchkey);
+			echo json_encode($data_prop);
+		}
+			
 	}
 
 	public function try1()

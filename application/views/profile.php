@@ -87,40 +87,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <section>
         <!-- Left Sidebar -->
         <aside id="leftsidebar" class="sidebar">
-            <!-- User Info -->
-            <div class="user-info">
-                <div class="image">
-                    <img src="<?php echo base_url(); ?>assets/admin/images/user.png" width="48" height="48" alt="User" />
-                </div>
-                <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
-                    <div class="email">john.doe@example.com</div>
-                    <div class="btn-group user-helper-dropdown">
-                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
-                        <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
-                            <li role="seperator" class="divider"></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
-                            <li role="seperator" class="divider"></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">input</i>Sign Out</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- #User Info -->
+            
             <!-- Menu -->
             <div class="menu">
                 <ul class="list">
                     
-                    <li class="active">
+                    <li>
                         <a href="http://localhost/ria/resmain/homepage">
                             <i class="material-icons">home</i>
                             <span>Home</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="active" >
                         <a href="http://localhost/ria/resmain/profile">
                             <i class="material-icons">account_circle</i>
                             <span>Profile</span>
@@ -130,12 +108,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <a href="http://localhost/ria/resmain/restab">
                             <i class="material-icons">assignment</i>
                             <span>Research</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://localhost/ria/resmain/resfind">
-                            <i class="material-icons">search</i>
-                            <span>Find</span>
                         </a>
                     </li>
                 </ul>
@@ -157,69 +129,63 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <section class="content">
         <div class="container-fluid">
-            <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card">
-                        <div class="header">
-                            <h2>PROFILE</h2>
-                            <ul class="header-dropdown m-r--5">
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
-                                    </a>
-                                    <ul class="dropdown-menu pull-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                        <li><a href="javascript:void(0);">Something else here</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="body">
-                            <div class="image">
-                                            <img src="<?php echo base_url(); ?>assets/admin/images/user.png" width="100" height="100" alt="User" />
+                            <div class="row clearfix" id="restable">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="card">
+                                        <div class="header">
+                                            <h2>
+                                                EXPORTABLE TABLE
+                                            </h2>
+                                            <ul class="header-dropdown m-r--5">
+                                                <li class="dropdown">
+                                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="material-icons">more_vert</i>
+                                                    </a>
+                                                    <ul class="dropdown-menu pull-right">
+                                                        <li><a href="javascript:void(0);">Action</a></li>
+                                                        <li><a href="javascript:void(0);">Another action</a></li>
+                                                        <li><a href="javascript:void(0);">Something else here</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
                                         </div>
-                            <?php
-                                if(isset($resdata)){
-                                    foreach ($resdata as $rd) {
-                                        echo'
-                                        <h2 class="card-inside-title">ID NUMBER:</h2>
-                                        <div class="row clearfix">
-                                            <div class="col-sm-12">
-                                                <h5>'.$rd['tup_id'].'</h5>
-                                            </div>
-                                        </div>
-                                        <h2 class="card-inside-title">NAME:</h2>
-                                        <div class="row clearfix">
-                                            <div class="col-sm-12">
-                                                <h5>'.$rd['fname'].''." ".''.$rd['mi'].''.".".''." ".''.$rd['lname'].'</h5>
-                                            </div>
-                                        </div>
-                                        <h2 class="card-inside-title">BIRTHDAY:</h2>
-                                        <div class="row clearfix">
-                                            <div class="col-sm-12">
-                                                <h5>'.$rd['bdate'].'</h5>
-                                            </div>
-                                        </div>
-                                        <h2 class="card-inside-title">OFFICE:</h2>
-                                        <div class="row clearfix">
-                                            <div class="col-sm-12">
-                                                <h5>'.$rd['college_campus'].'</h5>
-                                            </div>
-                                        </div>
-                                        ';
-                                    }
-                                }
-                                else{
+                                        <div class="body" id="tablebody">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th id="tupid">TUP ID</th>
+                                                            <th id="fullname">Name</th>
+                                                            <th id="bday">Birthday</th>
+                                                            <th id="sex">Sex</th>
+                                                            <th id="office">Office</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <?php 
+                                                    if(isset($resdata)){
+                                                        foreach($resdata as $rd){
+                                                            echo '
+                                                                <tr>
+                                                                    <td id="title">'.$rd['tup_id'].'</td>
+                                                                    <td id="subtitle">'.$rd['fname'].''." ".''.$rd['mi'].''.".".''." ".''.$rd['lname'].'</td>
+                                                                    <td id="duration">'.$rd['bdate'].'</td>
+                                                                    <td id="type">'.$rd['sex'].'</td>
+                                                                    <td id="budget">'.$rd['college_campus'].'</td>
+                                                                    
+                                                                </tr>
+                                                            ';
 
-                                }
-                            ?>
-                            
+                                                        }
+                                                    }?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
 
     <!-- Jquery Core Js -->
@@ -236,6 +202,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- Waves Effect Plugin Js -->
     <script src="<?php echo base_url(); ?>assets/admin/plugins/node-waves/waves.js"></script>
+
+    <!-- Jquery DataTable Plugin Js -->
+    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
 
     <!-- Jquery CountTo Plugin Js -->
     <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-countto/jquery.countTo.js"></script>

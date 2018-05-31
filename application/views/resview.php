@@ -72,34 +72,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <section>
         <!-- Left Sidebar -->
         <aside id="leftsidebar" class="sidebar">
-            <!-- User Info -->
-            <div class="user-info">
-                <div class="image">
-                    <img src="<?php echo base_url(); ?>assets/admin/images/user.png" width="48" height="48" alt="User" />
-                </div>
-                <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
-                    <div class="email">john.doe@example.com</div>
-                    <div class="btn-group user-helper-dropdown">
-                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
-                        <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
-                            <li role="seperator" class="divider"></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
-                            <li role="seperator" class="divider"></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">input</i>Sign Out</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- #User Info -->
+            
             <!-- Menu -->
             <div class="menu">
                 <ul class="list">
                     
-                    <li class="active">
+                    <li>
                         <a href="http://localhost/ria/resmain/homepage">
                             <i class="material-icons">home</i>
                             <span>Home</span>
@@ -111,16 +89,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <span>Profile</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="http://localhost/ria/resmain/restab">
                             <i class="material-icons">assignment</i>
                             <span>Research</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://localhost/ria/resmain/resfind">
-                            <i class="material-icons">search</i>
-                            <span>Find</span>
                         </a>
                     </li>
                 </ul>
@@ -200,13 +172,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <?php 
                                     if(isset($propdata)){
                                         foreach($propdata as $pd){
-                                            // $propid = $pd['proposal_id'];
-
-                                            // $title = $pd['p_title'];
-                                            // $subtitle = $pd['p_subtitle'];
-                                            // $duration = $pd['p_duration'];
-                                            // $type = $pd['p_type'];
-                                            // $budget = $pd['p_budget_total'];
                                             echo '
                                                 <tr>
                                                     <td id="title"><a href="http://localhost/ria/resmain/resviewclick/'.$pd['proposal_id'].'" class="atitle">'.$pd['p_title'].'</a></td>
