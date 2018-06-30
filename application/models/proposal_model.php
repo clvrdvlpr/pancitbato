@@ -38,7 +38,7 @@ class Proposal_model extends CI_Model {
     public function update_proposal($data)
 	{
 		$this->db->where($data);
-		$this->db->update($this->table, $data);
+		$this->db->update($this->table,$data);
 		return TRUE;
 	}
     
@@ -62,7 +62,7 @@ class Proposal_model extends CI_Model {
 				$this->db->or_like('p_type', $searchquery);
 				$this->db->or_like('p_keywords', $searchquery);
 			// }
-		$this->db->order_by('proposal_id', 'DESC');
+		// $this->db->order_by('proposal_id', 'DESC');
 		// return $this->db->get();
 		$query = $this->db->get();
 		return $query->result_array();
@@ -76,5 +76,50 @@ class Proposal_model extends CI_Model {
 		$query=$this->db->get();
 		
 		return $query->result_array();
+	}
+
+	public function data_submit()
+	{
+		$this->db->select("*");
+		$this->db->from($this->table);
+		
+		// $this->db->select("*")
+			// ->from($this->table);
+			// ->join('','','')
+			// ->group_by('','')
+			// ->order_by('','')
+		
+		$this->db->order_by('proposal_id', 'DESC');
+		$this->db->limit(10);
+		$query=$this->db->get();
+		
+		return $query->result_array();
+	}
+
+	public function proposal_join()
+	{	
+		$this->db->select("*");
+		$this->db->from($this->table);
+		$this->db->join('submits','proposal.proposal_id = submits.proposal_id');
+		// $this->db->group_by('submits.researcher_id');
+		// $this->db->select("*")
+			// ->from($this->table);
+			// ->join('','','')
+			// ->group_by('','')
+			// ->order_by('','')
+		
+		// $this->db->order_by('proposal.proposal_id', 'DESC');
+		$query= $this->db->get();
+		
+		return $query->result_array();
+	}
+
+	public function update_prop($data,$newdata)
+	{	
+		$this->db->where('proposal_id',$data);
+		$this->db->update($this->table, $newdata);
+		// $query= $this->db->get();
+		// return $query->result_array();
+		return TRUE;
 	}
 }

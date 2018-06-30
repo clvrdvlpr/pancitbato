@@ -80,7 +80,9 @@ class Submit_model extends CI_Model {
 			// ->join('','','')
 			// ->group_by('','')
 			// ->order_by('','')
-			
+		
+		$this->db->order_by('proposal.proposal_id', 'DESC');
+		$this->db->limit(10);
 		$query= $this->db->get();
 		
 		return $query->result_array();
@@ -101,5 +103,7 @@ class Submit_model extends CI_Model {
 		// $this->db->where('researcher_id',$res_id);
 		return $query->result_array();
 	}
+
+	
 }
 

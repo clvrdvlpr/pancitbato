@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?><!DOCTYPE html>
 <html>
@@ -130,12 +130,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <section class="content">
         <div class="container-fluid">
-            
                 <div class="row clearfix">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="card">
                             <div id="searchhead" class="header">
-                                <form action="" method="POST">
+                                <!-- <form method="POST"> -->
                                     <div class="row clearfix"> 
                                         <div class="col-md-10">
                                             <div class="input-group">
@@ -155,137 +154,114 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!-- <ul class="list-unstyled">
                                         <li><b>Searched for: </b></li>
                                     </ul> -->
-                                </form>
+                                <!-- </form> -->
                             </div>
                         </div>
                     </div>
                 </div>
                 <section id="dashboard">
-                <div class="row clearfix">
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <div class="card">
-                            <div class="header">
-                                <h2>BULLETIN</h2>
-                            </div>
-                            <div class="body">
-                                <ul class="list-unstyled">
-                                    <li>Lorem ipsum dolor sit amet</li>
-                                    <li>Consectetur adipiscing elit</li>
-                                    <li>Integer molestie lorem at massa</li>
-                                    <li>Facilisis in pretium nisl aliquet</li>
-                                    <li>
-                                        Nulla volutpat aliquam velit
-                                        <ol>
-                                            <li>Phasellus iaculis neque</li>
-                                            <li>Purus sodales ultricies</li>
-                                            <li>Vestibulum laoreet porttitor sem</li>
-                                            <li>Ac tristique libero volutpat at</li>
-                                        </ol>
-                                    </li>
-                                    <li>Faucibus porta lacus fringilla vel</li>
-                                    <li>Aenean sit amet erat nunc</li>
-                                    <li>Eget porttitor lorem</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <div class="card">
-                            <div class="header">
-                                <h2>NEW PROJECTS 2018</h2>
-                            </div>
-                            <div class="body">
-                                <ul class="list-unstyled">
-                                <?php 
-                                    if(isset($joindata)) {
-                                        foreach ($joindata as $ts) {
-                                            $date = date('Y');
-                                            if($ts['status_year'] <= $date){
-                                                echo'
-                                                <li><b>'.$ts['proposal_id'].'</b>'." : ".''.$ts['p_title'].'</li>
-                                                ';
+                    <div class="row clearfix">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h2>NEW PROJECTS 2018</h2>
+                                </div>
+                                <div class="body">
+                                    <ul class="list-unstyled">
+                                    <?php 
+                                        if(isset($newprojects)) {
+                                            foreach ($newprojects as $np) {
+                                                
+                                                    // if($np['proposal_id'] != $lastdata){
+                                                        echo'
+                                                        <li><a href="http://localhost/ria/resmain/resviewclick/'.$np['proposal_id'].'"><b>'.$np['proposal_id'].'</b>'." : ".''.$np['p_title'].'</a></li>
+                                                        ';
+                                                        // $lastdata = $np['proposal_id'];
+                                                    // }
+                                                    // else{
+                                                    //     echo 'Data Repeat';
+                                                    // }
                                             }
                                         }
-                                    }
-                                ?>
+                                    ?>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h2>BULLETIN</h2>
+                                </div>
+                                <div class="body">
+                                    <ul class="list-unstyled">
+                                        <li>Lorem ipsum dolor sit amet</li>
+                                        <li>Consectetur adipiscing elit</li>
+                                        <li>Integer molestie lorem at massa</li>
+                                        <li>Facilisis in pretium nisl aliquet</li>
+                                        <li>
+                                            Nulla volutpat aliquam velit
+                                            <ol>
+                                                <li>Phasellus iaculis neque</li>
+                                                <li>Purus sodales ultricies</li>
+                                                <li>Vestibulum laoreet porttitor sem</li>
+                                                <li>Ac tristique libero volutpat at</li>
+                                            </ol>
+                                        </li>
+                                        <li>Faucibus porta lacus fringilla vel</li>
+                                        <li>Aenean sit amet erat nunc</li>
+                                        <li>Eget porttitor lorem</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </section>
+                <div id="searchresults" class="row clearfix">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card">
+                            <div class="header">
+                                <h2>Research Proposals</h2>
+                            </div>
+                            <div class="body" id="researchproposals">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <div class="row clearfix demo-icon-container">
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <div class="demo-google-material-icon"> 
+                                                    <i class="material-icons">search</i> <span id="psearchnum" class="icon-name"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li id="propresultbodyno"></li>
+                                    <li id="propresultbody"></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="header">
+                                <h2>Researchers</h2>
+                            </div>
+                            <div class="body" id="researchers">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <div class="row clearfix demo-icon-container">
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                                <div class="demo-google-material-icon"> 
+                                                    <i class="material-icons">search</i> <span id="rsearchnum" class="icon-name"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li id="resresultbodyno"></li>
+                                    <li id="resresultbody"></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                </section>
-            
-            <div id="searchresults" class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card">
-                        <div class="header">
-                            <h2>Research Proposals</h2>
-                        </div>
-                        <div class="body" id="researchproposals">
-                            <ul class="list-unstyled">
-                                <li>
-                                    <div class="row clearfix demo-icon-container">
-                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                            <div class="demo-google-material-icon"> 
-                                                <i class="material-icons">search</i> <span id="psearchnum" class="icon-name"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <!-- <div id="loader" class="loader align-center">
-                                        <div class="preloader">
-                                            <div class="spinner-layer pl-red">
-                                                <div class="circle-clipper left">
-                                                    <div class="circle"></div>
-                                                </div>
-                                                <div class="circle-clipper right">
-                                                    <div class="circle"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p>Loading</p>
-                                </div> -->
-                                <li id="propresultbodyno"></li>
-                                <li id="propresultbody"></li>
-                                <!-- <a href="http://localhost/ria/resmain/"></a> -->
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="header">
-                            <h2>Researchers</h2>
-                        </div>
-                        <div class="body" id="researchers">
-                            <ul class="list-unstyled">
-                                <li>
-                                    <div class="row clearfix demo-icon-container">
-                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                            <div class="demo-google-material-icon"> 
-                                                <i class="material-icons">search</i> <span class="icon-name">records found!</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>Consectetur adipiscing elit</li>
-                                <li>Integer molestie lorem at massa</li>
-                                <li>Facilisis in pretium nisl aliquet</li>
-                                <li>
-                                    Nulla volutpat aliquam velit
-                                    <ol>
-                                        <li>Phasellus iaculis neque</li>
-                                        <li>Purus sodales ultricies</li>
-                                        <li>Vestibulum laoreet porttitor sem</li>
-                                        <li>Ac tristique libero volutpat at</li>
-                                    </ol>
-                                </li>
-                                <li>Faucibus porta lacus fringilla vel</li>
-                                <li>Aenean sit amet erat nunc</li>
-                                <li>Eget porttitor lorem</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
     </section>
 
     <!-- Jquery Core Js -->

@@ -140,9 +140,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>
-                                EXPORTABLE TABLE
-                            </h2>
+                            <h2>PROPOSALS</h2>
                             <ul class="header-dropdown m-r--5">
                                 <li class="dropdown">
                                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -278,15 +276,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                             <h3 class="card-inside-title">Proposal Type</h3>
                             <div class="row clearfix">
+
                                 <div class="col-sm-6">
-                                    <div class="demo-checkbox">
+                                    <div class="demo-radio-button">
+                                        <input name="p_type" type="radio" id="radio_1" class="with-gap"/>
+                                        <label for="radio_1">Faculty</label>
+                                        <input name="p_type" type="radio" id="radio_2" class="with-gap"/>
+                                        <label for="radio_2">Faculty Led</label>
+                                    </div>
+                                    <!-- <div class="demo-checkbox">
                                         <input name="p_type" value="Faculty" type="checkbox" id="md_checkbox_39" class="filled-in chk-col-black" />
                                         <label for="md_checkbox_39">Faculty</label>
                                     </div>
                                     <div class="demo-checkbox">
                                         <input name="p_type" value="Faculty Led" type="checkbox" id="md_checkbox_40" class="filled-in chk-col-black" />
                                         <label for="md_checkbox_40">Faculty Led</label>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <h3 class="card-inside-title">Total Budget</h3>
