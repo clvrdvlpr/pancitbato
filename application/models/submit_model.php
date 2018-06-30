@@ -80,13 +80,15 @@ class Submit_model extends CI_Model {
 			// ->join('','','')
 			// ->group_by('','')
 			// ->order_by('','')
-			
+		
+		$this->db->order_by('proposal.proposal_id', 'DESC');
+		$this->db->limit(10);
 		$query= $this->db->get();
 		
 		return $query->result_array();
 	}
 
-	public function submit_join_research()
+	public function submit_join_research($res_id)
 	{	
 		$this->db->select("*");
 		$this->db->from($this->table);
@@ -96,10 +98,12 @@ class Submit_model extends CI_Model {
 			// ->join('','','')
 			// ->group_by('','')
 			// ->order_by('','')
-			
+		$this->db->where('submits.researcher_id',$res_id);
 		$query= $this->db->get();
-		
+		// $this->db->where('researcher_id',$res_id);
 		return $query->result_array();
 	}
+
+	
 }
 

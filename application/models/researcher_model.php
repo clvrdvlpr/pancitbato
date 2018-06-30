@@ -65,6 +65,7 @@ class Researcher_model extends CI_Model {
 		
 		$this->db->select("*");
 		$this->db->from($this->table);
+		// $this->db->join('office','researcher.office_id = office.office_id');
 			// if($searchquery != ''){
 				// $this->db->like('researcher_id', $searchquery);
 				$this->db->or_like('tup_id', $searchquery);
@@ -73,9 +74,9 @@ class Researcher_model extends CI_Model {
 				$this->db->or_like('lname', $searchquery);
 				$this->db->or_like('bdate', $searchquery);
 				$this->db->or_like('sex', $searchquery);
-				$this->db->or_like('office_id', $searchquery);
+				// $this->db->or_like('college_campus', $searchquery);
 			// }
-		$this->db->order_by('researcher_id', 'DESC');
+		// $this->db->order_by('researcher_id', 'DESC');
 		// return $this->db->get();
 		$query = $this->db->get();
 		return $query->result_array();
@@ -95,5 +96,14 @@ class Researcher_model extends CI_Model {
 		$query= $this->db->get();
 		
 		return $query->result_array();
+	}
+
+	public function update_res($resid,$newdata)
+	{	
+		$this->db->where('researcher_id',$resid);
+		$this->db->update($this->table, $newdata);
+		// $query= $this->db->get();
+		// return $query->result_array();
+		return TRUE;
 	}
 }

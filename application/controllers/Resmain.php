@@ -4,8 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Resmain extends CI_Controller {
 
 	public function index()
-	{
-		$this->load->view('signin');
+	{	
+		
 	}
 
 	public function homepage()
@@ -14,16 +14,21 @@ class Resmain extends CI_Controller {
 
 		}
 		else{
-			$tag = "new";
-			//load the model
-			$this->load->model('submit_model');
 
+			// $residurl = $this->uri->segment('3');
+			// $residurl = 23;
+			//load the model
+			$this->load->model('proposal_model');
 			//get the data
-			// $data['tagstatus'] = $this->submit_model->latest_submit($tag);
-			$data['joindata'] = $this->submit_model->submit_join($tag);
+			// $data['researcherdata'] = $this->submit_model->submit_join_research($residurl);
+			
+			$data['newprojects'] = $this->proposal_model->data_submit();
+			// $data['researcherid'] = $residurl;
 			// print_r($data);
 			// exit;
 			//load the view
+			// print_r($data);
+			// exit;
 			$this->load->view('homepage', $data);
 		}
 		
@@ -41,6 +46,7 @@ class Resmain extends CI_Controller {
 			exit;
 		}
 		else{
+
 			//load the models
 			$this->load->model('researcher_model');
 			// $this->load->model('office_model');
@@ -49,7 +55,7 @@ class Resmain extends CI_Controller {
 			// $data['offdata'] = $this->office_model->find_office();
 			// print_r($data);
 			// exit;
-			$this->load->view('profile',$data);
+			$this->load->view('profilelist',$data);
 		}
 		
 	}
@@ -86,7 +92,7 @@ class Resmain extends CI_Controller {
 
 				if (strlen($title)>0 && strlen($description)>0 && strlen($duration)>0 && strlen($type)>0 && strlen($budget)>0) {
 					
-					$status_tag = "NEW";
+					
 					// $new_prop_id = $propyear + "&#8208;" + $propyearcount;
 					$this->load->model('settings_model');
 					$insertdate = array(
@@ -156,20 +162,18 @@ class Resmain extends CI_Controller {
 		$this->load->view('resviewclick',$data);
 	}
 
-	public function propview(){
-
-		
-
-				//load the model
-				$this->load->model('proposal_model');
-				//get the data
-				$data['propviewdata'] = $this->proposal_model->read_proposal();
-				// print_r($data);
-				// exit;
-				$this->load->view('propview');
-
-
-		
+	public function profileview()
+	{	
+		$residurl = $this->uri->segment('3');
+		// print_r($residurl);
+		// exit;
+		//load the model
+		$this->load->model('researcher_model');
+		//get the data
+		$data['profileview'] = $this->researcher_model->find_researcher($residurl);
+		// print_r($data);
+		// exit;
+		$this->load->view('propview',$data);
 	}
 	
 	public function resprop()
@@ -188,8 +192,7 @@ class Resmain extends CI_Controller {
 			$budget =$_POST['p_budget_total'];
 			$file = $_POST['p_file_fullpaper'];
 			$proposal_id = $propyear.''."-".''.$propyearcount;
-			print_r("$propyearcount");
-			exit;
+			
 
 				if (strlen($subtitle) == 0 && strlen($file) == 0) {
 					$subtitle = "--";
@@ -243,6 +246,12 @@ class Resmain extends CI_Controller {
 				}
 		}
 		else{
+			
+			// $date = date('Y-m-d');
+			// $bdate1 = DateTime::createFromFormat('Y-m-d', $date);
+   //          $newbdate = $bdate1->format('M d, Y');
+			// print_r($newbdate);
+			// exit;
 			$this->load->view('addprop');
 		}
 		
@@ -275,47 +284,162 @@ class Resmain extends CI_Controller {
 		));
 	}
 
-	public function resprof()
-	{
-		$this->load->view('');
-	}
-
-	public function resfind()
-	{
-		if($_SERVER['REQUEST_METHOD'] == 'POST'){
-			$searchval = $_POST['searchval'];
-			// print_r($searchval);
-			// exit;
-			
-			//load the model
-			$this->load->model('proposal_model');
-			//
-			$data = $this->proposal_model->search_proposal($searchval);
-			//
-			print_r($data);
-
-		}
-		else{
-			$this->load->view('findsearch');
-		}
-		
-	}
-
 	public function search_p(){
 		
-		$searchkey  = $_GET['searchval'];
-		// $searchkey = "Clever";
+		$searchkey  = $_GET['psearchval'];
+		// $searchkey = "trace";
+		// $searchkey = "";
+		if($searchkey == ""){
+			$data_prop['datap'] = array();
+			echo json_encode($data_prop);
+		}
+		else{
+			$this->load->model('proposal_model');
+			$data_prop['datap'] = $this->proposal_model->search_proposal($searchkey);
+			echo json_encode($data_prop);
+		}
+			
+	}
+
+	public function search_r(){
+		$searchkey  = $_GET['rsearchval'];
+		// $searchkey = "bituonan";
+		// $searchkey = "";
+		if($searchkey == ""){
+			$data_res['datar'] = array();
+			// print_r($data_res);
+			echo json_encode($data_res);
+		}
+		else{
+			$this->load->model('researcher_model');
+			$data_res['datar'] = $this->researcher_model->search_researcher($searchkey);
+			// print_r($data_res);
+			echo json_encode($data_res);
+		}		
+	}
+
+	public function editpropdata($type=null){
+
+		// $this->load->model('proposal_model');
+		// $record = $this->proposal_model->read_proposal();
+		// print_r($record);
+		// if($_SERVER['REQUEST_METHOD'] == 'POST'){
+		$propid = $_POST['proposal_id'];
+
+				if($propid != ""){
+					$subtitle = $_POST['p_subtitle'];
+					$description = $_POST['p_description'];
+					$duration = $_POST['p_duration'];
+					$budget =$_POST['p_budget_total'];
+					$propid = $_POST['proposal_id'];
+					if(!isset($_POST['p_type'])){
+						$type = "--";
+					}
+					else{
+						$type = $_POST['p_type'];
+					}
+					$newdata = array(
+							// 'proposal_id'=>$propid,
+							'p_subtitle'=> $subtitle,
+							'p_description'=> $description,
+							'p_duration'=> $duration,
+							'p_type'=> $type,
+							'p_budget_total'=> $budget,
+							);
+					// print_r($newdata);
+					// exit;
+					$this->load->model('proposal_model');
+					$this->proposal_model->update_prop($propid,$newdata);
+					header("Location: http://localhost/ria/resmain/resviewclick/".$propid);
+				}
+				else{
+
+				}
+
+		// $this->load->model('proposal_model');
+		// $this->proposal_model->update_prop($propid,$newdata);
+
+
+	}
+
+	public function editresdata($type=null){
+
+		// $residurl = $this->uri->segment('3');
+		// $this->load->model('proposal_model');
+		// $record = $this->proposal_model->read_proposal();
+		// print_r($record);
+		// if($_SERVER['REQUEST_METHOD'] == 'POST'){
+		// $propid = $_POST['proposal_id'];
+		$resid = $_POST['researcher_id'];
+				if($resid != ""){
+					$tupid = $_POST['tup_id'];
+					$description = $_POST['p_description'];
+					$duration = $_POST['p_duration'];
+					$budget =$_POST['p_budget_total'];
+					$propid = $_POST['proposal_id'];
+					if(!isset($_POST['p_type'])){
+						$type = "--";
+					}
+					else{
+						$type = $_POST['p_type'];
+					}
+					$newdata = array(
+							// 'proposal_id'=>$propid,
+							'p_subtitle'=> $subtitle,
+							'p_description'=> $description,
+							'p_duration'=> $duration,
+							'p_type'=> $type,
+							'p_budget_total'=> $budget,
+							);
+					// print_r($newdata);
+					// exit;
+					$this->load->model('proposal_model');
+					$this->proposal_model->update_prop($propid,$newdata);
+					header("Location: http://localhost/ria/resmain/resviewclick/".$propid);
+				}
+				else{
+
+				}
+	}
+
+	public function editprofiledata($sex=null){
 		
-		$this->load->model('proposal_model');
-		$data_prop['datap'] = $this->proposal_model->search_proposal($searchkey);
-		// print_r(json_encode($data_prop['prop']));
-		$this->load->model('office_model');
-		$data_off = $this->office_model->search_office($searchkey);
-		echo json_encode($data_prop);
-		// echo json_encode($data_res);
-				// 'p_title'=>$data,
-				// 'p_subtitle'=>$p_subtitle,
-				// ));
+		$propidurl = $this->uri->segment('3');
+		// print_r($propidurl);
+		// exit;
+				if($propidurl != ""){
+					$tupid = $_POST['tup_id'];
+					
+					$fname = $_POST['fname'];
+					// print_r($fname);
+					// exit;
+					$mi = $_POST['mi'];
+					$lname =$_POST['lname'];
+					$bdate = $_POST['bdate'];
+					if(!isset($_POST['sex'])){
+						$sex = "--";
+					}
+					else{
+						$sex = $_POST['sex'];
+					}
+					$newdatares = array(
+							// 'proposal_id'=>$propid,
+							'tup_id'=> $tupid,
+							'fname'=> $fname,
+							'mi'=> $mi,
+							'lname'=> $lname,
+							'bdate'=> $bdate,
+							'sex' => $sex,
+							);
+					// print_r($newdatares);
+					// exit;
+					$this->load->model('researcher_model');
+					$this->researcher_model->update_res($propidurl,$newdatares);
+					header("Location: http://localhost/ria/resmain/profileview/".$propidurl);
+					}
+					else{
+						print_r("Error");
+					}
 	}
 
 	public function try1()
@@ -338,4 +462,6 @@ class Resmain extends CI_Controller {
 		$data = $this->office_model->submit_join();
 		print_r($data);
 	}
+
+
 }

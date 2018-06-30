@@ -10,6 +10,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Favicon-->
     <link rel="icon" href="<?php echo base_url(); ?>assets/images/tuplogo.png" type="image/png">
 
+    <!-- Preloader Icon -->
+    <!-- <link href="<?php echo base_url(); ?>assets/images/preloader.gif" type="image/png"> -->
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
@@ -23,8 +26,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Animation Css -->
     <link href="<?php echo base_url(); ?>assets/admin/plugins/animate-css/animate.css" rel="stylesheet" />
 
-    <!-- JQuery DataTable Css -->
-    <link href="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+    <!-- Sweetalert Css -->
+    <link href="<?php echo base_url(); ?>assets/admin/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
 
     <!-- Custom Css -->
     <link href="<?php echo base_url(); ?>assets/admin/css/style.css" rel="stylesheet">
@@ -34,6 +37,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- Select -->
     <link href="<?php echo base_url(); ?>assets/admin/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
+
+
 
 </head>
 
@@ -77,29 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <section>
         <!-- Left Sidebar -->
         <aside id="leftsidebar" class="sidebar">
-            <!-- User Info -->
-            <div class="user-info">
-                <div class="image">
-                    <img src="<?php echo base_url(); ?>assets/admin/images/user.png" width="48" height="48" alt="User" />
-                </div>
-                <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
-                    <div class="email">john.doe@example.com</div>
-                    <div class="btn-group user-helper-dropdown">
-                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
-                        <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
-                            <li role="seperator" class="divider"></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
-                            <li role="seperator" class="divider"></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">input</i>Sign Out</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- #User Info -->
+            
             <!-- Menu -->
             <div class="menu">
                 <ul class="list">
@@ -122,12 +105,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <span>Research</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="http://localhost/ria/resmain/resfind">
-                            <i class="material-icons">search</i>
-                            <span>Find</span>
-                        </a>
-                    </li>
                 </ul>
             </div>
             <!-- #Menu -->
@@ -146,48 +123,160 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </section>
 
     <section class="content">
-
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <?php if(isset($resclickdata)){
-                                    foreach ($resclickdata as $rc) {
-                                        echo'<h2>'."PROPOSAL ".''.$rc['proposal_id'].''.": ".''.$rc['p_title'].'</h2>';
-                                    }
-                                }
-                                        ?>
+                            <div class="row clearfix">
+                                <div class="col-xs-12 col-sm-10">
+                                    <?php if(isset($resclickdata)){
+                                            foreach ($resclickdata as $rc) {
+                                                echo'<h2>'."PROPOSAL ".''.$rc['proposal_id'].''.": ".''.$rc['p_title'].'</h2>';
+                                            }
+                                        }
+                                                ?>
+                                </div>
+                                <div class="col-xs-12 col-sm-2 align-right">
+                                    <div class="btn-group" role="group">
+                                        <button id="editbtn" type="button" class="btn btn-primary waves-effect"><i class="material-icons">mode_edit</i></button>
+                                        <button id="deletebtn" type="button" class="btn btn-warning waves-effect"><i class="material-icons">delete</i></button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="body">
-                            <?php
+                            <section id="initdata">
+                                <?php
                                 if(isset($resclickdata)){
                                     foreach ($resclickdata as $rc) {
-                                        echo'
-                                        <h2 class="card-inside-title">'."Proposal ID: ".''.$rc['proposal_id'].'</h2>
-                                        
-                                        <h2 class="card-inside-title">'."Subtitle: ".''.$rc['p_subtitle'].'</h2>
+                                        echo '
+                                            <h2 class="card-inside-title" id="propid">'."Proposal ID: ".''.$rc['proposal_id'].'</h2>
+                                            
+                                            <h2 class="card-inside-title">'."Subtitle: ".''.$rc['p_subtitle'].'</h2>
 
-                                        <h2 class="card-inside-title">'."Type: ".''.$rc['p_type'].'</h2>
-                                        
-                                        <h2 class="card-inside-title">Description:</h2>
-                                        <div class="row clearfix">
-                                            <div class="col-sm-12">
-                                                <h5>'.$rc['p_description'].'</h5>
+                                            <h2 class="card-inside-title">'."Type: ".''.$rc['p_type'].'</h2>
+                                            
+                                            <h2 class="card-inside-title">Description:</h2>
+                                            <div class="row clearfix">
+                                                <div class="col-sm-12">
+                                                    <h5>'.$rc['p_description'].'</h5>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <h2 class="card-inside-title">'."Duration: ".''.$rc['p_duration'].''." ".''."months".'</h2>
-                                        
-                                        <h2 class="card-inside-title">'."Total Budget: ".''.$rc['p_budget_total'].'</h2>
-                                        
+                                            <h2 class="card-inside-title">'."Duration: ".''.$rc['p_duration'].'</h2>
+                                            
+                                            <h2 class="card-inside-title">'."Total Budget: ".''.$rc['p_budget_total'].'</h2>
                                         ';
+
+                                        
                                     }
                                 }
                                 else{
 
                                 }
                             ?>
-                            
+                            </section>
+                            <section id="editdata">
+                                <form id="editform" method="post" action=<?php echo site_url("resmain/editpropdata/");?> accept-charset="utf-8">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <h2 class="card-inside-title">Proposal ID: </h2>
+                                        </span>
+                                        <div class="form-line">
+                                            <!-- <input id="proposal_id" name="proposal_id" type="text" class="form-control" value="" disabled /> -->
+                                            <?php echo form_input(['readonly'=>'true','id'=>'proposal_id','name' => 'proposal_id', 'class' => 'form-control', 'value' => set_value('proposal_id', $resclickdata[0]['proposal_id'])]);?>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <h2 class="card-inside-title">Subtitle: </h2>
+                                        </span>
+                                        <div class="form-line">
+                                            <!-- <input id="proposal_id" name="proposal_id" type="text" class="form-control" value="" disabled /> -->
+                                            <?php echo form_input(['id'=>'psubtitle','name' => 'p_subtitle', 'class' => 'form-control', 'value' => set_value('p_subtitle',$resclickdata[0]['p_subtitle'])]);?>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <h2 class="card-inside-title">Type: </h2>
+                                        </span>
+                                        <?php 
+                                            if($resclickdata[0]['p_type'] == "faculty"){
+                                                echo '
+                                                    <div class="demo-radio-button">
+                                                        <input name="p_type" type="radio" id="ptype1" class="with-gap" value="faculty" checked/>
+                                                        <label for="ptype1">Faculty</label>
+                                                        <input name="p_type" type="radio" id="ptype2" class="with-gap" value="faculty led"/>
+                                                        <label for="ptype2">Faculty Led</label>
+                                                    </div>
+                                                ';
+                                            }
+                                            elseif($resclickdata[0]['p_type'] == "faculty led") {
+                                                echo '
+                                                    <div class="demo-radio-button">
+                                                        <input name="p_type" type="radio" id="ptype1" class="with-gap" value="faculty" />
+                                                        <label for="ptype1">Faculty</label>
+                                                        <input name="p_type" type="radio" id="ptype2" class="with-gap" value="faculty led" checked/>
+                                                        <label for="ptype2">Faculty Led</label>
+                                                    </div>
+                                                ';
+                                            }
+                                            else{
+                                                echo '
+                                                    <div class="demo-radio-button">
+                                                        <input name="p_type" type="radio" id="ptype1" class="with-gap" value="faculty" />
+                                                        <label for="ptype1">Faculty</label>
+                                                        <input name="p_type" type="radio" id="ptype2" class="with-gap" value="faculty led"/>
+                                                        <label for="ptype2">Faculty Led</label>
+                                                    </div>
+                                                ';
+                                            }
+                                        ?>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <h2 class="card-inside-title">Description: </h2>
+                                        </span>
+                                        <div class="form-line">
+                                            <!-- <input id="proposal_id" name="proposal_id" type="text" class="form-control" value="" disabled /> -->
+                                            <?php echo form_input(['id'=>'pdescription','name' => 'p_description', 'class' => 'form-control', 'value' => set_value('p_description',$resclickdata[0]['p_description'])]);?>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <h2 class="card-inside-title">Duration: </h2>
+                                        </span>
+                                        <div class="form-line">
+                                            <!-- <input id="proposal_id" name="proposal_id" type="text" class="form-control" value="" disabled /> -->
+                                            <?php echo form_input(['id'=>'pduration','name' => 'p_duration', 'class' => 'form-control', 'value' => set_value('p_duration',$resclickdata[0]['p_duration'])]);?>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <h2 class="card-inside-title">Total Budget: </h2>
+                                        </span>
+                                        <div class="form-line">
+                                            <!-- <input id="proposal_id" name="proposal_id" type="text" class="form-control" value="" disabled /> -->
+                                            <?php echo form_input(['id'=>'pbudget','name' => 'p_budget_total', 'class' => 'form-control', 'value' => set_value('p_budget_total',$resclickdata[0]['p_budget_total'])]);?>
+                                        </div>
+                                    </div>
+                                    <div class="icon-and-text-button-demo">
+                                        <button id="savebtn" type="submit" data-type="cancel" class="btn btn-primary waves-effect">
+                                            <i class="material-icons">save</i>
+                                            <span>SAVE</span>
+                                        </button>
+                                    </div>
+                                    <!-- <div class="row clearfix js-sweetalert">
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                            <p>A basic message</p>
+                                            <button class="btn btn-primary waves-effect" data-type="basic">CLICK ME</button>
+                                        </div>
+                                    </div> -->
+                                    <!-- <input name="prop_id" class = "col-md-6" type ="text" style="display:none" value=""></input><br>
+                                    <label>Station ID</label>
+                                    <?php //echo form_input(['name' => 'propid', 'class' => 'form-control', 'value' => set_value('prop_id', $record->proposal_id)]);?> -->
+                                </form>
+                            </section>
                         </div>
                     </div>
                 </div>
@@ -211,25 +300,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- Waves Effect Plugin Js -->
     <script src="<?php echo base_url(); ?>assets/admin/plugins/node-waves/waves.js"></script>
+    <script src="<?php echo base_url(); ?>assets/admin/plugins/node-waves/propedit.js"></script>
 
-    <!-- Jquery DataTable Plugin Js -->
-    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/jquery.dataTables.js"></script>
-    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
-    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
-    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/admin/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+    <!-- SweetAlert Plugin Js -->
+    <script src="<?php echo base_url(); ?>assets/admin/plugins/sweetalert/sweetalert.min.js"></script>
 
     <!-- Custom Js -->
     <script src="<?php echo base_url(); ?>assets/admin/js/admin.js"></script>
-    <script src="<?php echo base_url(); ?>assets/admin/js/pages/tables/jquery-datatable.js"></script>
+    <script src="<?php echo base_url(); ?>assets/admin/js/pages/ui/dialogs.js"></script>
 
     <!-- Demo Js -->
     <script src="<?php echo base_url(); ?>assets/admin/js/demo.js"></script>
-    <script src="<?php echo base_url(); ?>assets/jsmine/prop.js"></script>
 </body>
 
 </html>
